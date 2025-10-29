@@ -14,16 +14,118 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      grievances: {
+        Row: {
+          assigned_to: string | null
+          category: Database["public"]["Enums"]["grievance_category"]
+          created_at: string
+          description: string
+          details: Json
+          grievance_id: string
+          id: string
+          resolution_comments: string | null
+          status: Database["public"]["Enums"]["grievance_status"]
+          sub_category: string
+          submitted_by: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          category: Database["public"]["Enums"]["grievance_category"]
+          created_at?: string
+          description: string
+          details?: Json
+          grievance_id: string
+          id?: string
+          resolution_comments?: string | null
+          status?: Database["public"]["Enums"]["grievance_status"]
+          sub_category: string
+          submitted_by: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          category?: Database["public"]["Enums"]["grievance_category"]
+          created_at?: string
+          description?: string
+          details?: Json
+          grievance_id?: string
+          id?: string
+          resolution_comments?: string | null
+          status?: Database["public"]["Enums"]["grievance_status"]
+          sub_category?: string
+          submitted_by?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "grievances_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "grievances_submitted_by_fkey"
+            columns: ["submitted_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          department: string | null
+          email: string
+          full_name: string
+          id: string
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string
+          user_id_number: string
+        }
+        Insert: {
+          created_at?: string
+          department?: string | null
+          email: string
+          full_name: string
+          id: string
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+          user_id_number: string
+        }
+        Update: {
+          created_at?: string
+          department?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+          user_id_number?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_grievance_id: { Args: never; Returns: string }
     }
     Enums: {
-      [_ in never]: never
+      grievance_category:
+        | "academic"
+        | "facility"
+        | "examination"
+        | "placement"
+        | "other"
+      grievance_status: "submitted" | "in_progress" | "resolved" | "closed"
+      user_role: "student" | "faculty" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +252,16 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      grievance_category: [
+        "academic",
+        "facility",
+        "examination",
+        "placement",
+        "other",
+      ],
+      grievance_status: ["submitted", "in_progress", "resolved", "closed"],
+      user_role: ["student", "faculty", "admin"],
+    },
   },
 } as const
