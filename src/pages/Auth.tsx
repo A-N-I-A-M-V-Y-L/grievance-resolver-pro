@@ -53,12 +53,9 @@ const Auth = () => {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-  
-  // inside Auth.tsx - handle
 
-// success path...
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: signupEmail,
         password: signupPassword,
         options: {
@@ -73,7 +70,11 @@ const Auth = () => {
       });
 
       if (error) throw error;
-      toast.success("Registration successful! You can now login.");
+      
+      if (data.user) {
+        toast.success("Registration successful! Logging you in...");
+        navigate("/dashboard");
+      }
     } catch (error: any) {
       toast.error(error.message || "Failed to sign up");
     } finally {
