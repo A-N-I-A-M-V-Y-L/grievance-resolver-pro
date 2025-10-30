@@ -54,22 +54,7 @@ const Auth = () => {
     e.preventDefault();
     setLoading(true);
   
-  // inside Auth.tsx - handleLogin
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-  console.log('signIn data:', data);
-  console.log('signIn error:', error);
-
-  if (error) {
-    if (error.status === 400 && /email not confirmed/i.test(error.message || '')) {
-    // show a friendly UI message: "Please confirm your email. Didn't receive it? Resend confirmation."
-      setErrorMessage('Please confirm your email. Check your inbox or click "Resend confirmation".');
-      return;
-  }
-  // other error handling
-    setErrorMessage(error.message || 'Login failed');
-    return;
-}
+  // inside Auth.tsx - handle
 
 // success path...
     try {
